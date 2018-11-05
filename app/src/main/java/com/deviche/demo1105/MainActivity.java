@@ -31,24 +31,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Toast.makeText(this, "检查升级", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "检查升级", Toast.LENGTH_SHORT).show();
 
         loadVersionInfo();
     }
 
     private void loadVersionInfo() {
-        /*OkHttpClient client = new CustomHttpClient()
+        OkHttpClient client = new CustomHttpClient()
                 .setConnectTimeout(5_000)
                 .setShowLog(true)
-                .createOkHttpClient();*/
-
-        OkHttpClient client = new OkHttpClient.Builder().build();
+                .createOkHttpClient();
 
         Retrofit retrofit = new CustomRetrofit()
                 //我在app的build.gradle文件的defaultConfig标签里定义了BASE_URL
                 .setBaseUrl("https://raw.githubusercontent.com/")
                 .setOkHttpClient(client)
                 .createRetrofit();
+        Log.e(TAG, "loadVersionInfo:1111111111 " );
         retrofit.create(ApiService.class)
                 .getVersionInfo()
                 .subscribeOn(Schedulers.io())
@@ -70,12 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e(TAG, "loadVersionInfo:222222222 " );
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.e(TAG, "loadVersionInfo:33333333 " );
                     }
                 });
                 /*.subscribe(new LoadingDialogObserver<String>(createLoadingDialog()) {
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        if (curVersionCode > 0 && entity.getApkInfo().getVersionCode() > curVersionCode)
+        if (curVersionCode > 0 && entity.getApkInfo().getVersionCode() > curVersionCode){
             new AlertDialog.Builder(this)
                     .setTitle("更新提示")
                     .setMessage("1、当前版本：" + curVersionName + "\n2、最新版本：" + entity.getApkInfo().getVersionName())
@@ -135,6 +134,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     })
                     .setNegativeButton("取消", null)
                     .show();
+        }else {
+            Toast.makeText(this, "当前是最新版本", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

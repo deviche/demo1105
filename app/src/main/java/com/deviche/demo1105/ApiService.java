@@ -6,7 +6,7 @@ import retrofit2.http.GET;
 
 public interface ApiService {
 
-    @GET("JustinRoom/JSCKit/master/capture/output.json")
+    @GET("deviche/demo1105/master/capture/output.json")
     Observable<String> getVersionInfo();
 
 }
